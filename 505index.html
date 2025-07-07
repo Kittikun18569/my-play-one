@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เว็บฟังเพลงง่ายๆ</title>
+  <style>
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(135deg, #6b8ce3, #a3bffa);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    .player {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px 30px;
+      width: 320px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .song-title {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      min-height: 28px;
+    }
+    audio {
+      width: 100%;
+      outline: none;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      background: #fff;
+    }
+    button {
+      background: #fff;
+      color: #6b8ce3;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+      font-size: 1rem;
+    }
+    button:hover {
+      background: #4a69e2;
+      color: #fff;
+    }
+    select {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 8px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>เว็บฟังเพลงง่าย ๆ</h1>
+  <div class="player">
+    <select id="songList">
+      <option value="">-- เลือกเพลง --</option>
+      <option value="505/1 OF 1.mp3">เพลงที่ 1 - 1 of 1</option>
+      <option value="song2.mp3">เพลงที่ 2 - Summer Night</option>
+      <option value="song3.mp3">เพลงที่ 3 - Happy Tune</option>
+    </select>
+    <div class="song-title" id="songTitle">เลือกเพลงเพื่อฟัง</div>
+    <audio id="audioPlayer" controls></audio>
+    <button id="playPauseBtn">เล่นเพลง</button>
+  </div>
+
+  <script>
+    const audio = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const songList = document.getElementById('songList');
+    const songTitle = document.getElementById('songTitle');
+
+    // เมื่อเลือกเพลงใหม่
+    songList.addEventListener('change', () => {
+      if(songList.value === "") {
+        audio.pause();
+        audio.src = "";
+        songTitle.textContent = "เลือกเพลงเพื่อฟัง";
+        playPauseBtn.textContent = "เล่นเพลง";
+        return;
+      }
+      audio.src = songList.value;
+      songTitle.textContent = songList.options[songList.selectedIndex].text;
+      audio.play().catch(() => {
+        // ถ้าเบราว์เซอร์บล็อกให้เล่นอัตโนมัติ ให้เปลี่ยนปุ่มเป็นเล่น
+        playPauseBtn.textContent = 'เล่นเพลง';
+      });
+      playPauseBtn.textContent = 'หยุดเพลง';
+    });
+
+    // ปุ่มเล่น/หยุดเพลง
+    playPauseBtn.addEventListener('click', () => {
+      if(audio.src === "") {
+        alert('กรุณาเลือกเพลงก่อนครับ');
+        return;
+      }
+      if(audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = 'หยุดเพลง';
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = 'เล่นเพลง';
+      }
+    });
+
+    // เมื่อเพลงจบ
+    audio.addEventListener('ended', () => {
+      playPauseBtn.textContent = 'เล่นเพลง';
+    });
+  </script>
+</body>
+</html>
