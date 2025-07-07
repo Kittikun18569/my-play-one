@@ -3,83 +3,152 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>เว็บฟังเพลงง่ายๆ</title>
+  <title>เว็บฟังเพลงสวย ๆ</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Kanit', sans-serif;
-      background: linear-gradient(135deg, #6b8ce3, #a3bffa);
-      color: #fff;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #f0e7ff;
+      margin: 0;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
       padding: 20px;
     }
-    h1 {
-      margin-bottom: 10px;
-    }
+
     .player {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 20px 30px;
-      width: 320px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px 40px;
+      max-width: 380px;
+      width: 100%;
+      box-shadow:
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        0 0 0 1px rgba(255, 255, 255, 0.18);
       text-align: center;
+      transition: transform 0.3s ease;
     }
+
+    .player:hover {
+      transform: translateY(-8px);
+      box-shadow:
+        0 20px 40px 0 rgba(31, 38, 135, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.25);
+    }
+
+    h1 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 2rem;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1.1rem;
+      border-radius: 15px;
+      border: none;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      outline: none;
+    }
+
+    select:hover, select:focus {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
     .song-title {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      min-height: 28px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      min-height: 32px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
+
     audio {
       width: 100%;
       outline: none;
-      margin-bottom: 15px;
-      border-radius: 10px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      margin-bottom: 30px;
       background: #fff;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
     }
+
+    audio:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
     button {
       background: #fff;
-      color: #6b8ce3;
+      color: #764ba2;
+      font-weight: 700;
       border: none;
-      padding: 10px 20px;
-      font-weight: bold;
-      border-radius: 25px;
+      padding: 14px 0;
+      font-size: 1.1rem;
+      border-radius: 30px;
       cursor: pointer;
-      transition: background 0.3s ease;
       width: 100%;
-      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(118, 75, 162, 0.6);
+      transition: all 0.3s ease;
+      user-select: none;
     }
+
     button:hover {
-      background: #4a69e2;
+      background: #9b6ecb;
       color: #fff;
+      box-shadow: 0 6px 25px rgba(155, 110, 203, 0.9);
+      transform: translateY(-3px);
     }
-    select {
-      width: 100%;
-      margin-bottom: 15px;
-      padding: 8px;
-      border-radius: 10px;
-      border: none;
-      font-size: 1rem;
-      outline: none;
-      cursor: pointer;
+
+    /* Responsive */
+    @media (max-width: 420px) {
+      .player {
+        padding: 25px 20px;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+      select, button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+      .song-title {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>เว็บฟังเพลงง่าย ๆ</h1>
-  <div class="player">
-    <select id="songList">
-      <option value="">-- เลือกเพลง --</option>
+  <div class="player" role="region" aria-label="เครื่องเล่นเพลง">
+    <h1>เว็บฟังเพลงสวย ๆ</h1>
+
+    <select id="songList" aria-label="เลือกเพลง">
+      <option value="" disabled selected>-- เลือกเพลง --</option>
       <option value="505/1 OF 1.mp3">เพลงที่ 1 - 1 of 1</option>
       <option value="song2.mp3">เพลงที่ 2 - Summer Night</option>
       <option value="song3.mp3">เพลงที่ 3 - Happy Tune</option>
     </select>
+
     <div class="song-title" id="songTitle">เลือกเพลงเพื่อฟัง</div>
-    <audio id="audioPlayer" controls></audio>
-    <button id="playPauseBtn">เล่นเพลง</button>
+
+    <audio id="audioPlayer" controls preload="metadata"></audio>
+
+    <button id="playPauseBtn" aria-pressed="false">เล่นเพลง</button>
   </div>
 
   <script>
@@ -88,22 +157,24 @@
     const songList = document.getElementById('songList');
     const songTitle = document.getElementById('songTitle');
 
-    // เมื่อเลือกเพลงใหม่
+    // เลือกเพลง
     songList.addEventListener('change', () => {
       if(songList.value === "") {
         audio.pause();
         audio.src = "";
         songTitle.textContent = "เลือกเพลงเพื่อฟัง";
         playPauseBtn.textContent = "เล่นเพลง";
+        playPauseBtn.setAttribute('aria-pressed', 'false');
         return;
       }
       audio.src = songList.value;
       songTitle.textContent = songList.options[songList.selectedIndex].text;
       audio.play().catch(() => {
-        // ถ้าเบราว์เซอร์บล็อกให้เล่นอัตโนมัติ ให้เปลี่ยนปุ่มเป็นเล่น
         playPauseBtn.textContent = 'เล่นเพลง';
+        playPauseBtn.setAttribute('aria-pressed', 'false');
       });
       playPauseBtn.textContent = 'หยุดเพลง';
+      playPauseBtn.setAttribute('aria-pressed', 'true');
     });
 
     // ปุ่มเล่น/หยุดเพลง
@@ -115,15 +186,18 @@
       if(audio.paused) {
         audio.play();
         playPauseBtn.textContent = 'หยุดเพลง';
+        playPauseBtn.setAttribute('aria-pressed', 'true');
       } else {
         audio.pause();
         playPauseBtn.textContent = 'เล่นเพลง';
+        playPauseBtn.setAttribute('aria-pressed', 'false');
       }
     });
 
     // เมื่อเพลงจบ
     audio.addEventListener('ended', () => {
       playPauseBtn.textContent = 'เล่นเพลง';
+      playPauseBtn.setAttribute('aria-pressed', 'false');
     });
   </script>
 </body>
